@@ -3,11 +3,14 @@ package com.example.Student.Library.Management.System.Models;
 
 
 import com.example.Student.Library.Management.System.Enum.CardStatus;
+
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="card")
@@ -35,6 +38,33 @@ public class Card {
     private Student studentVariableName; //This varible is used in the parent class.
     // while doing the bidirectional mapping
 
+
+    //Card is parent wrt to Book
+    @OneToMany(mappedBy = "card",cascade = CascadeType.ALL)
+    List<Book> booksIssued = new ArrayList<>();
+
+
+    //Connecting the card class to the transaction
+    //Bidireectional Mapping
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
+    private List<Transactions> transactionsList = new ArrayList<>();
+
+
+    public List<Book> getBooksIssued() {
+        return booksIssued;
+    }
+
+    public void setBooksIssued(List<Book> booksIssued) {
+        this.booksIssued = booksIssued;
+    }
+
+    public List<Transactions> getTransactionsList() {
+        return transactionsList;
+    }
+
+    public void setTransactionsList(List<Transactions> transactionsList) {
+        this.transactionsList = transactionsList;
+    }
 
     public Student getStudentVariableName() {
         return studentVariableName;
